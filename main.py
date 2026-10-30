@@ -1,3 +1,4 @@
+from copy import deepcopy
 
 
 inventory = {
@@ -83,7 +84,6 @@ def search_product(inventory :dict) -> dict:
         print("No matching product ID found.")
         return None
 
-from copy import deepcopy
 def update_stock(inventory: dict):
     """Update quantity of one product."""
     inv_temp = deepcopy(inventory)
@@ -132,4 +132,11 @@ def update_stock(inventory: dict):
         print(f"Product with product ID: {product_id} doesn't exist.")
         return inv_temp
     return inv_temp
+
+def calculate_inventory_value(inventory: dict) -> int:
+    """Calculate the total value of all products in inventory. """
+    total_value = 0
+    for p_info in inventory.values():
+        total_value += p_info['price'] * p_info['quantity']
+    return total_value
 
