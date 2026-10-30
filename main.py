@@ -18,14 +18,14 @@ inventory = {
     }
 }
 
-def product_id_exists(id: str, inventory: dict) -> bool:
+def product_id_exists(product_id: str, inventory: dict) -> bool:
     """To check whether the ID already exist or not."""
-    return id in inventory
+    return product_id in inventory
 
 def add_product(inventory: dict):
     """Adding a new product through terminal input."""
     inv_temp = inventory.copy()
-    product_id = input("Enter product ID: ")
+    product_id = input("Enter product ID: ").strip().lower()
     if not product_id_exists(product_id, inventory):
         p_name = input("Enter product name: ")
         while True:
@@ -65,5 +65,21 @@ def display_inventory(inventory: dict):
     print(f"\n{'ID' :<10}  | {'NAME':<20}| {'PRICE' :<15}| {'QUANTITY' :<15} \n{'-'*67}")
     for product, p_info in inventory.items():
         print(f"| {product :<10}| {p_info['name'] :<20}| {p_info['price'] :<15}| {p_info['quantity'] :<15}")
-    return
+
+def search_product_id(inventory :dict, product_id :str):
+    """Search the inventory dictionary by product ID."""
+
+    product_id = product_id.strip().lower()
+    if product_id in inventory:
+        return inventory[product_id]
+    return None
+
+def search_product(inventory :dict):
+    product_id = input("Enter a Product ID: ").strip().lower()
+    result = search_product_id(inventory, product_id)
+    if result:
+        return {product_id: result}
+    else:
+        print("No matching product ID found.")
+        return None
 
