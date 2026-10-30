@@ -56,3 +56,14 @@ def add_product(inventory: dict):
     }
     return inv_temp
 
+def display_inventory(inventory: dict):
+    """Display the inventory storage."""
+
+    if not inventory:
+        print("Inventory is empty.")
+        return
+    print(f"\n{'ID' :<10}  | {'NAME':<20}| {'PRICE' :<15}| {'QUANTITY' :<15} \n{'-'*67}")
+    for product, p_info in inventory.items():
+        print(f"| {product :<10}| {p_info['name'] :<20}| {p_info['price'] :<15}| {p_info['quantity'] :<15}")
+    return
+
