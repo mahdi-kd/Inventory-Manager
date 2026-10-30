@@ -1,0 +1,20 @@
+
+
+inventory = {
+    "p001" : {
+        "name" : "Headphone",
+        "price" : 150,
+        "quantity" : 24
+    },
+    "p002" : {
+        "name" : "Printer",
+        "price" : 300,
+        "quantity" : 5
+    },
+    "p003" : {
+        "name" : "Mobile Phone",
+        "price" : 250,
+        "quantity" : 15
+    }
+}
+
