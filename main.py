@@ -1,5 +1,5 @@
 from copy import deepcopy
-
+import json
 
 inventory = {
     "p001" : {
@@ -32,8 +32,8 @@ def add_product(inventory: dict):
         while True:
             try:
                 p_price = int(input("Enter price: "))
-                if p_price < 0:
-                    print("Price can't be negetive.")
+                if p_price <= 0:
+                    print("Price must be positive.")
                     continue
                 break
             except ValueError:
@@ -67,7 +67,7 @@ def display_inventory(inventory: dict):
     for product, p_info in inventory.items():
         print(f"| {product :<10}| {p_info['name'] :<20}| {p_info['price'] :<15}| {p_info['quantity'] :<15}")
 
-def search_product_id(inventory :dict, product_id :str) -> dict:
+def search_product_id(inventory: dict, product_id: str) -> dict:
     """Search the inventory dictionary by product ID."""
 
     product_id = product_id.strip().lower()
@@ -75,7 +75,7 @@ def search_product_id(inventory :dict, product_id :str) -> dict:
         return inventory[product_id]
     return None
 
-def search_product(inventory :dict) -> dict:
+def search_product(inventory: dict) -> dict:
     product_id = input("Enter a Product ID: ").strip().lower()
     result = search_product_id(inventory, product_id)
     if result:
@@ -139,4 +139,49 @@ def calculate_inventory_value(inventory: dict) -> int:
     for p_info in inventory.values():
         total_value += p_info['price'] * p_info['quantity']
     return total_value
+
+def save_inventory(inventory: dict) -> None:
+    with open("inventory.json", 'w') as file:
+        json.dump(inventory, file, indent=4)
+
+def validate_inventory(inventory: dict) -> bool:
+    if not isinstance(inventory, dict):
+        return False
+    products = inventory.values()
+    try:
+        if all(
+                isinstance(key, str) and isinstance(value, dict) 
+                for key, value in inventory.items()
+            ) and all(  #Check datatype of product info
+                isinstance(product['name'], str) and
+                isinstance(product['price'], int) and
+                not isinstance(product['price'], bool) and
+                isinstance(product['quantity'], int) and
+                not isinstance(product['quantity'], bool)
+                for product in products
+            ) and all(  #Check valid value for product info
+                product['price'] > 0 and
+                product['quantity'] >= 0
+                for product in products
+            ):
+                return True
+    except KeyError:
+        return False
+    return False
+
+def load_inventory() -> dict:
+    try:
+        with open("inventory.json", 'r') as file:
+            inv_temp = json.load(file)
+    except FileNotFoundError:
+        print("inventory.json not found. Starting with an empty inventory.")
+        return {}
+    except json.JSONDecodeError:
+        print("inventory.json is corrupted. Starting with an empty inventory.")
+        return {}
+    if validate_inventory(inv_temp):
+        return inv_temp
+
+    print("inventory.json is invalid. Starting with an empty inventory.")
+    return {}
 
