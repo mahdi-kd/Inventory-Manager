@@ -80,7 +80,7 @@ def main():
                     try:
                         save_inventory(inventory)
                     except (OSError, TypeError, ValueError) as error:
-                        print("Failed to save.")
+                        print(f"Failed to save inventory: {error}")
                         continue
                     break
                 elif confirm_exit in ("d", "b"):

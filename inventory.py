@@ -1,24 +1,6 @@
 from copy import deepcopy
 import json
 
-inventory = {
-    "p001" : {
-        "name" : "Headphone",
-        "price" : 150,
-        "quantity" : 24
-    },
-    "p002" : {
-        "name" : "Printer",
-        "price" : 300,
-        "quantity" : 5
-    },
-    "p003" : {
-        "name" : "Mobile Phone",
-        "price" : 250,
-        "quantity" : 15
-    }
-}
-
 def product_id_exists(product_id: str, inventory: dict) -> bool:
     """To check whether the ID already exist or not."""
     return product_id in inventory
@@ -37,12 +19,12 @@ def add_product(inventory: dict):
                     continue
                 break
             except ValueError:
-                print("Please enter a valid non-negative integer number. Avoid using special characters.")
+                print("Please enter a valid positive integer number. Avoid using special characters.")
         while True:
             try:
                 p_quantity = int(input("Enter quantity: "))
                 if p_quantity < 0:
-                    print("Quantitiy can't be negetive.")
+                    print("Quantity can't be negative.")
                     continue
                 break
             except ValueError:
@@ -67,7 +49,7 @@ def display_inventory(inventory: dict):
     for product, p_info in inventory.items():
         print(f"| {product :<10}| {p_info['name'] :<20}| {p_info['price'] :<15}| {p_info['quantity'] :<15}")
 
-def search_product_id(inventory: dict, product_id: str) -> dict:
+def search_product_id(inventory: dict, product_id: str):
     """Search the inventory dictionary by product ID."""
 
     product_id = product_id.strip().lower()
@@ -75,7 +57,7 @@ def search_product_id(inventory: dict, product_id: str) -> dict:
         return inventory[product_id]
     return None
 
-def search_product(inventory: dict) -> dict:
+def search_product(inventory: dict):
     product_id = input("Enter a Product ID: ").strip().lower()
     result = search_product_id(inventory, product_id)
     if result:
@@ -92,7 +74,7 @@ def update_stock(inventory: dict):
         item = search_product_id(inventory, product_id)
         print(f"Current quantity for {item['name']}: {item['quantity']}")
         while True:
-            user_input = input(f"Enter 'a' for add, 'r' to remove a certain number and a non-negetive integer to set the quantity: \n").strip().lower()
+            user_input = input(f"Enter 'a' for add, 'r' to remove a certain number and a non-negative integer to set the quantity: \n").strip().lower()
             if user_input == 'a':    #Adding stock
                 try:
                     add_value = int(input("How much to add: "))
