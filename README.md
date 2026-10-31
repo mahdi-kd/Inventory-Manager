@@ -1,6 +1,6 @@
 # Inventory Manager
 
-A simple command-line inventory management application built with Python. This project was created as a practical exercise to improve my Python programming skills.
+A simple command-line inventory management application built with Python.
 
 ## Features
 
